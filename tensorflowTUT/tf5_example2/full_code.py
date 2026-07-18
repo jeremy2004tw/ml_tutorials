@@ -10,28 +10,26 @@ from __future__ import print_function
 import tensorflow as tf
 import numpy as np
 
+# TensorFlow 2.x compatibility for this older tutorial example
+tf.compat.v1.disable_eager_execution()
+
 # create data
 x_data = np.random.rand(100).astype(np.float32)
 y_data = x_data*0.1 + 0.3
 
 ### create tensorflow structure start ###
-Weights = tf.Variable(tf.random_uniform([1], -1.0, 1.0))
-biases = tf.Variable(tf.zeros([1]))
+Weights = tf.compat.v1.Variable(tf.compat.v1.random_uniform([1], -1.0, 1.0))
+biases = tf.compat.v1.Variable(tf.zeros([1]))
 
 y = Weights*x_data + biases
 
 loss = tf.reduce_mean(tf.square(y-y_data))
-optimizer = tf.train.GradientDescentOptimizer(0.5)
+optimizer = tf.compat.v1.train.GradientDescentOptimizer(0.5)
 train = optimizer.minimize(loss)
 ### create tensorflow structure end ###
 
-sess = tf.Session()
-# tf.initialize_all_variables() no long valid from
-# 2017-03-02 if using tensorflow >= 0.12
-if int((tf.__version__).split('.')[1]) < 12 and int((tf.__version__).split('.')[0]) < 1:
-    init = tf.initialize_all_variables()
-else:
-    init = tf.global_variables_initializer()
+sess = tf.compat.v1.Session()
+init = tf.compat.v1.global_variables_initializer()
 sess.run(init)
 
 for step in range(201):
