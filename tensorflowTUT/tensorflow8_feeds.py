@@ -9,9 +9,12 @@ Please note, this code is only for python 3+. If you are using python 2+, please
 from __future__ import print_function
 import tensorflow as tf
 
-input1 = tf.placeholder(tf.float32)
-input2 = tf.placeholder(tf.float32)
+# Enable TensorFlow 1.x-style graph execution for this tutorial example
+tf.compat.v1.disable_eager_execution()
+
+input1 = tf.compat.v1.placeholder(tf.float32)
+input2 = tf.compat.v1.placeholder(tf.float32)
 output = tf.multiply(input1, input2)
 
-with tf.Session() as sess:
+with tf.compat.v1.Session() as sess:
     print(sess.run(output, feed_dict={input1: [7.], input2: [2.]}))
